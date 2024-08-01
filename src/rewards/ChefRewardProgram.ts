@@ -4,7 +4,7 @@ import LIQUID_STAKING_ABI from '../constants/abi/LiquidStaking.json'
 import { calculateReserves, getChef, weiToNumber } from '../utils'
 import { ethCall, ethTransaction } from '../utils/eth'
 import { getChefPool, getChefUser } from '../graphql/fetcher'
-import { FUSD, FUSD_V3, LIQUID_STAKING, sFUSE, VOLT, WFUSE, xVOLT } from '../constants'
+import { FUSD, FUSD_V3, LIQUID_STAKING, sFUSE, USDC_V2, VOLT, WFUSE, xVOLT } from '../constants'
 import fetchVoltageTokenPrice from '../utils/fetchVoltageTokenPrice'
 import fetchTokenInfo from '../utils/fetchTokenInfo'
 import fetchChefPairInfo from '../utils/fetchChefPairInfo'
@@ -88,6 +88,13 @@ export default class ChefRewardProgram extends RewardProgram {
       } else if (pairAddress.toLowerCase() === FUSD.toLowerCase()) {
         const token0 = await fetchTokenInfo(FUSD, this.web3)
         tokens = [{ id: FUSD, ...token0 }, null]
+
+        reserves = [globalTotalStake, null]
+
+        pairPrice = 1
+      } else if (pairAddress.toLowerCase() === USDC_V2.toLowerCase()) {
+        const token0 = await fetchTokenInfo(USDC_V2, this.web3)
+        tokens = [{ id: USDC_V2, ...token0 }, null]
 
         reserves = [globalTotalStake, null]
 
